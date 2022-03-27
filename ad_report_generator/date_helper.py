@@ -2,9 +2,12 @@ from datetime import datetime, timedelta
 
 
 class DateHelper(object):
-    def __init__(self, one_day=False, week=False, month=False, lifetime=False):
+    def __init__(
+        self, one_day=False, week=False, two_weeks=False, month=False, lifetime=False
+    ):
         self.one_day = one_day
         self.week = week
+        self.two_weeks = two_weeks
         self.month = month
         self.lifetime = lifetime
         self.now = datetime.today()
@@ -28,6 +31,8 @@ class DateHelper(object):
             days = 1
         elif self.week:
             days = 7
+        elif self.two_weeks:
+            days = 14
         elif self.month:
             days = 30
         elif self.lifetime:
