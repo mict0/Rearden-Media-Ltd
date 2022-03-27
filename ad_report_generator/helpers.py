@@ -1,10 +1,11 @@
 import os
 
-from config import ACTIVE_CAMPAIGN_FILTER
+from config import HAS_IMPRESSIONS_FILTER
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.adaccountuser import AdAccountUser as AdUser
 from facebook_business.adobjects.campaign import Campaign
 from facebook_business.api import Cursor, FacebookAdsApi
+from transform_insights import transform_campaign
 
 # from facebook_business.adobjects.adsinsights import AdsInsights
 
@@ -22,7 +23,7 @@ def get_ad_accounts(ad_user: AdUser) -> list[str]:
     return [
         account["id"]
         for account in list(ad_user.get_ad_accounts())
-        if account["id"] == "act_457228929100368"
+        # if account["id"] in ["act_457228929100368", "act_325129885565194"]
     ]
 
 
@@ -33,7 +34,7 @@ def get_campaigns_for_account(account: str, start_date: str, end_date: str) -> C
     fields = ["name", "id", "daily_budget"]
     params = {
         "time_range": {"since": start_date, "until": end_date},
-        "filtering": [ACTIVE_CAMPAIGN_FILTER],
+        "filtering": [HAS_IMPRESSIONS_FILTER],
         "level": "campaign",
     }
     campaigns = AdAccount(account).get_campaigns(fields=fields, params=params)
@@ -59,3 +60,13 @@ def get_campaign_insights(campaign: Campaign, start_date: str, end_date: str) ->
     }
     insights = campaign.get_insights(fields=fields, params=params)
     return dict(insights[0])
+
+
+def extract_campaign_insights_for_account(account, start_date, end_date):
+    extracted_campaigns = []
+    campaigns = get_campaigns_for_account(account, start_date, end_date)
+    for campaign in campaigns:
+        campaign_insights = get_campaign_insights(campaign, start_date, end_date)
+        transformed_campaign = transform_campaign(campaign, campaign_insights)
+        extracted_campaigns.append(transformed_campaign)
+    return extracted_campaigns
