@@ -51,3 +51,30 @@ def filter_insights(campaign_insights: dict) -> dict:
 
 def _get_nested_field_by_key(lst: list, key: str) -> Any:
     return next((item["value"] for item in lst if item["action_type"] == key), None)
+
+
+def prepare_data_for_google(campaign_insights):
+    # once everything is fetched it should be stored here
+    # and sent as data in google helper
+    # those are columns in google sheet and data should be stored accordingly
+    # use campaign_insights to get right data in right place
+    prepared_data = {}
+    prepared_data["week_number"] = ""
+    prepared_data["offer"] = ""
+    prepared_data["cpa_type"] = ""
+    prepared_data["be_cpa"] = ""
+    prepared_data["purchases_cold"] = ""
+    prepared_data["amount_spent_cold"] = ""
+    prepared_data["tracked_cpa_cold"] = ""
+    prepared_data["current_daily_budget_ret"] = ""
+    prepared_data["profitability_ret"] = ""
+    prepared_data["profitability_cold"] = ""
+    prepared_data["profitability_total"] = ""
+    prepared_data["amount_spent_total"] = ""
+    prepared_data["current_daily_budget_total"] = ""
+    prepared_data["average_daily_budget_total"] = ""
+    prepared_data["fb_only_traffic_channel"] = ""
+    prepared_data["backend_revenue"] = ""
+    prepared_data["gross_margin"] = ""
+    prepared_data["backend_profits"] = ""
+    return [[v for v in prepared_data.values()]]
