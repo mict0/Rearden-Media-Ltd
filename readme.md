@@ -42,13 +42,22 @@ SERVICE_ACCOUNT_FILE - keys.json file with credentials
 SPREADSHEET_ID - id from google sheet url
 ```
 
-
-
 Usage:
 client_name **must** match the name in spreadsheet
 ```python
 data = [["row1_data", "row2_data"..."row_n_data"]]
 update_sheet_for_client("client_name", data)
 ```
+
+
+
+### Suggestions and thoughts on what's next
+
+- pick up data from campaing_insights and parse right columns into right field using _prepare_data_for_google_
+- once that's done you should have almost everything prepared
+
+- Idea on production realisation:
+    - this should be a AWS Lambda function that's triggered using CRON job
+    (since it should be running and updating data on specific days)
 
 
