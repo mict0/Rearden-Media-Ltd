@@ -7,8 +7,6 @@ from facebook_business.adobjects.campaign import Campaign
 from facebook_business.api import Cursor, FacebookAdsApi
 from transform_insights import transform_campaign
 
-# from facebook_business.adobjects.adsinsights import AdsInsights
-
 ACCESS_TOKEN = os.environ.get("access_token")
 ACCOUNT_ID = os.environ.get("account_id")
 
@@ -20,11 +18,7 @@ def get_ad_accounts(ad_user: AdUser) -> list[str]:
     """
     Returns list of all AdAccounts
     """
-    return [
-        account["id"]
-        for account in list(ad_user.get_ad_accounts())
-        # if account["id"] in ["act_457228929100368", "act_325129885565194"]
-    ]
+    return [account["id"] for account in list(ad_user.get_ad_accounts())]
 
 
 def get_campaigns_for_account(account: str, start_date: str, end_date: str) -> Cursor:
